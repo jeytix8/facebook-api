@@ -2,82 +2,77 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Facebook API</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook API</title>
 </head>
 
 <body>
-  <!-- Facebook Login Button -->
-  <div 
-    class="fb-login-button" 
-    data-width="" 
-    data-size="" 
-    data-button-type="login_with" 
-    data-layout="" 
-    data-auto-logout-link="true" 
-    data-use-continue-as="true">
-  </div>
+    <!-- Facebook Login Button -->
+    <div class="fb-login-button" data-width="" data-size="" data-button-type="" data-layout=""
+        data-auto-logout-link="false" data-use-continue-as="true" id="fb-login-btn"></div>
 
-  <!-- Placeholder for user info -->
-  <div id="status"></div>
+    <!-- Placeholder for user info -->
+    <div id="status"></div>
 
-  <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous"
-    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v23.0&appId=801735385860455"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v23.0&appId=801735385860455"></script>
 
-  <script>
-    // Initialize FB SDK
-    window.fbAsyncInit = function () {
-      FB.init({
-        appId: '801735385860455',
-        cookie: true,
-        xfbml: true,
-        version: 'v23.0'
-      });
+    <script>
+        // Initialize FB SDK
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '801735385860455',
+                cookie: true,
+                xfbml: true,
+                version: 'v23.0'
+            });
 
-      // Check status on load
-      FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-      });
-    };
+            // Check status on load
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        };
 
-    // Handle login state
-    function statusChangeCallback(response) {
-      console.log(response); // Debug in console
+        // Handle login state
+        function statusChangeCallback(response) {
+            console.log(response); // Debug in console
 
-      if (response.status === 'connected') {
-        // Logged in → fetch user info
-        FB.api('/me', { fields: 'id,name,email' }, function (user) {
-          document.getElementById('status').innerHTML = `
-            <p>✅ Welcome, ${user.name}!</p>
-            <p>Email: ${user.email || 'No email shared'}</p>
-            <p>Your Facebook ID: ${user.id}</p>
-            <button onclick="logoutUser()">Logout</button>
-          `;
-        });
-      } else {
-        // Not logged in
-        document.getElementById('status').innerHTML = `
-          <p>❌ Please log into this app.</p>
-        `;
-      }
-    }
+            if (response.status === 'connected') {
+                // Logged in → fetch user info
+                FB.api('/me', { fields: 'id,name,email' }, function (user) {
+                    document.getElementById('status').innerHTML = `
+                        <p>✅ Welcome, ${user.name}!</p>
+                        <p>Email: ${user.email || 'No email shared'}</p>
+                        <p>Your Facebook ID: ${user.id}</p>
+                        <button onclick="logoutUser()">Logout</button>
+                    `;
+                    document.getElementById('fb-login-btn').style.display = 'none';
+                });
+            } else {
+                // Not logged in
+                document.getElementById('status').innerHTML = `
+                    <p>❌ Please log into this app.</p>
+                `;
+            }
+        }
 
-    // Recheck login after button click
-    function checkLoginState() {
-      FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-      });
-    }
+        // Recheck login after button click
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
 
-    // Logout function
-    function logoutUser() {
-      FB.logout(function (response) {
-        document.getElementById('status').innerHTML = "<p>👋 You are now logged out.</p>";
-      });
-    }
-  </script>
+        // Logout function
+        function logoutUser() {
+            FB.logout(function (response) {
+                alert('You have logged out successfully.');
+                window.location.reload();
+            });
+        }
+    </script>
 </body>
 
 </html>
