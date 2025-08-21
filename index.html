@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook API</title>
+</head>
+
+<body>
+    <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+    </fb:login-button>
+
+    <div class="fb-login-button" data-width="150" data-size="" data-button-type="" data-layout=""
+        data-auto-logout-link="true" data-use-continue-as="false"></div>
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v23.0&appId=1100808515331343"></script>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                appId: '4073305246252469',
+                cookie: true,
+                xfbml: true,
+                version: 'v23.0'
+            });
+
+            FB.AppEvents.logPageView();
+
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) { return; }
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+
+
+        FB.getLoginStatus(function (response) {
+            statusChangeCallback(response);
+        });
+
+        {
+            status: 'connected',
+                authResponse: {
+                accessToken: '...',
+                    expiresIn: '...',
+                        signedRequest: '...',
+                            userID: '...'
+            }
+        }
+
+        function checkLoginState() {
+            FB.getLoginStatus(function (response) {
+                statusChangeCallback(response);
+            });
+        }
+    </script>
+</body>
+
+</html>
